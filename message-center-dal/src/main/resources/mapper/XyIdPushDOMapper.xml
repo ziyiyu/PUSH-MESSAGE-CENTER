@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xinyan.message.center.dal.mapper.XyIdPushDOMapper" >
+  <resultMap id="BaseResultMap" type="com.xinyan.message.center.dal.model.XyIdPushDO" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="XY_ID" property="xyId" jdbcType="VARCHAR" />
+    <result column="INSTANCE_ID" property="instanceId" jdbcType="VARCHAR" />
+    <result column="TOKEN" property="token" jdbcType="VARCHAR" />
+    <result column="IP_PORT" property="ipPort" jdbcType="VARCHAR" />
+    <result column="CREATE_AT" property="createAt" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_AT" property="updateAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, XY_ID, INSTANCE_ID, TOKEN, IP_PORT, CREATE_AT, CREATE_BY, UPDATE_AT, UPDATE_BY
+  </sql>
+
+  <!-- 插入用户连接记录 -->
+  <insert id="insertSelective" parameterType="com.xinyan.message.center.dal.model.XyIdPushDO" >
+    REPLACE INTO
+            T_XYID_PUSH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="xyId != null" >
+        XY_ID,
+      </if>
+      <if test="instanceId != null" >
+        INSTANCE_ID,
+      </if>
+      <if test="token != null" >
+        TOKEN,
+      </if>
+      <if test="ipPort != null" >
+        IP_PORT,
+      </if>
+      <if test="createAt != null" >
+        CREATE_AT,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateAt != null" >
+        UPDATE_AT,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="xyId != null" >
+        #{xyId,jdbcType=VARCHAR},
+      </if>
+      <if test="instanceId != null" >
+        #{instanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="ipPort != null" >
+        #{ipPort,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null" >
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAt != null" >
+        #{updateAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

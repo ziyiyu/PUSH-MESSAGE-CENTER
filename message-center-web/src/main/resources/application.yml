@@ -1,0 +1,62 @@
+spring:
+  http:
+    encoding:
+      charset: utf-8
+      force: false
+      enabled: false
+  mvc:
+    favicon:
+      enabled: false
+  jmx:
+    enabled: false
+  application:
+    name: message-center
+  cloud:
+    stream:
+      default:
+        binder: kafka
+        producer:
+          headerMode: embeddedHeaders
+          key-serializer: org.apache.kafka.common.serialization.StringSerializer
+          value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+          #为了兼容非java端消费消息，使用原生encoding，不会有content-type头信息在消息体中，bytearray序列化，消费端直接获取原始字符串自己处理。
+          useNativeEncoding: true
+      #指定用kafka stream来作为默认消息中间件
+      default-binder: kafka
+      kafka:
+        #来自KafkaBinderConfigurationProperties
+        binder:
+          brokers: ${kafka.bootstrapServers}
+
+server:
+  port: 21102
+  ssl:
+    enabled: false
+  error:
+    whitelabel:
+      enabled: false
+
+management:
+  port: 54102
+  health:
+    mail:
+      enabled: false
+  security:
+    enabled: false
+  context-path: /management
+
+info:
+  app:
+    name: "@parent.artifactId@" #从pom.xml中获取
+    description: "@project.description@"
+    version: "@project.version@"
+    spring-boot-version: "@spring.boot.version@"
+
+eureka:
+   client:
+     serviceUrl:
+       defaultZone:  ${eureka-zone-url}
+   instance:
+     preferIpAddress: true
+     instance-id: ${spring.cloud.client.ip-address}:${server.port}

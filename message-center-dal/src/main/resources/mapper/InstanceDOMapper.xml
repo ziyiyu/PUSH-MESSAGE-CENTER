@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xinyan.message.center.dal.mapper.InstanceDOMapper">
+    <resultMap id="BaseResultMap" type="com.xinyan.message.center.dal.model.PushInstanceDO">
+        <id column="ID"                     property="id"               jdbcType="INTEGER"/>
+        <result column="INSTANCE_ID"        property="instanceId"       jdbcType="VARCHAR"/>
+        <result column="CLIENT_SUM"         property="clientSum"        jdbcType="VARCHAR"/>
+        <result column="CPU"                property="cpu"              jdbcType="VARCHAR"/>
+        <result column="MEM"                property="mem"              jdbcType="VARCHAR"/>
+        <result column="LOAD"               property="load"             jdbcType="VARCHAR"/>
+        <result column="IP_PORT"            property="ipPort"           jdbcType="VARCHAR"/>
+        <result column="SERVER_STATUS"      property="serverStatus"     jdbcType="VARCHAR"/>
+        <result column="PARENT_NODE"        property="parentNode"       jdbcType="VARCHAR"/>
+        <result column="CREATE_AT"          property="createdAt"        jdbcType="TIMESTAMP"/>
+        <result column="CREATE_BY"          property="createdBy"        jdbcType="VARCHAR"/>
+        <result column="UPDATE_AT"          property="updatedAt"        jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_BY"          property="updatedBy"        jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        PI.ID,
+        PI.INSTANCE_ID,
+        PI.CLIENT_SUM,
+        PI.CPU,
+        PI.MEM,
+        PI.LOAD,
+        PI.IP_PORT,
+        PI.SERVER_STATUS,
+        PI.PARENT_NODE,
+        PI.CREATE_AT,
+        PI.CREATE_BY,
+        PI.UPDATE_AT,
+        PI.UPDATE_BY
+    </sql>
+
+    <!--选择负载最小的服务器-->
+    <select id="selectBestInstance" resultMap="BaseResultMap" parameterType="com.xinyan.message.center.dal.model.PushInstanceDO">
+        SELECT
+            <include refid="Base_Column_List"/>
+            ,CPU * 0.2 + MEM * 0.2+ PI.LOAD * 0.2+ PI.CLIENT_SUM / 100000 * 0.3 + FLOOR(RAND() * 100) AS RULE
+        FROM
+            T_PUSH_INSTANCE PI
+        ORDER BY
+            RULE LIMIT 1
+    </select>
+
+    <!-- 新增服务器实例信息 -->
+    <insert id="addBySelective" parameterType="com.xinyan.message.center.dal.model.PushInstanceDO" >
+        REPLACE INTO
+                T_PUSH_INSTANCE
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                ID,
+            </if>
+            <if test="instanceId != null" >
+                INSTANCE_ID,
+            </if>
+            <if test="clientSum != null" >
+                CLIENT_SUM,
+            </if>
+            <if test="cpu != null" >
+                CPU,
+            </if>
+            <if test="mem != null" >
+                MEM,
+            </if>
+            <if test="load != null" >
+                `LOAD`,
+            </if>
+            <if test="ipPort != null" >
+                IP_PORT,
+            </if>
+            <if test="serverStatus != null" >
+                SERVER_STATUS,
+            </if>
+            <if test="parentNode != null" >
+                PARENT_NODE,
+            </if>
+            <if test="createdAt != null" >
+                CREATE_AT,
+            </if>
+            <if test="createdBy != null" >
+                CREATE_BY,
+            </if>
+            <if test="updatedAt != null" >
+                UPDATE_AT,
+            </if>
+            <if test="updatedBy != null" >
+                UPDATE_BY,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="instanceId != null" >
+                #{instanceId,jdbcType=VARCHAR},
+            </if>
+            <if test="clientSum != null" >
+                #{clientSum,jdbcType=VARCHAR},
+            </if>
+            <if test="cpu != null" >
+                #{cpu,jdbcType=VARCHAR},
+            </if>
+            <if test="mem != null" >
+                #{mem,jdbcType=VARCHAR},
+            </if>
+            <if test="load != null" >
+                #{load,jdbcType=VARCHAR},
+            </if>
+            <if test="ipPort != null" >
+                #{ipPort,jdbcType=VARCHAR},
+            </if>
+            <if test="serverStatus != null" >
+                #{serverStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="parentNode != null" >
+                #{parentNode,jdbcType=VARCHAR},
+            </if>
+            <if test="createdAt != null" >
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdBy != null" >
+                #{createdBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedAt != null" >
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedBy != null" >
+                #{updatedBy,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!-- 删除服务器实例信息 -->
+    <delete id="deleteByPrimaryKey" parameterType="com.xinyan.message.center.dal.model.PushInstanceDO">
+        DELETE FROM
+              T_PUSH_INSTANCE
+        WHERE
+              ID = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- 查询服务器实例信息 -->
+    <select id="selectBySelective" resultMap="BaseResultMap" parameterType="com.xinyan.message.center.dal.model.PushInstanceDO">
+        SELECT
+              <include refid="Base_Column_List"/>
+        FROM
+              T_PUSH_INSTANCE PI
+        <where>
+            <trim>
+                <if test="id != null and id != ''">
+                    AND  PI.ID = #{id,jdbcType=INTEGER}
+                </if>
+                <if test="instanceId != null and instanceId != ''">
+                    AND  PI.INSTANCE_ID = #{instanceId,jdbcType=VARCHAR}
+                </if>
+                <if test="clientSum != null and clientSum != ''">
+                    AND  PI.CLIENT_SUM = #{clientSum,jdbcType=VARCHAR}
+                </if>
+                <if test="cpu != null and cpu != ''">
+                    AND  PI.CPU = #{cpu,jdbcType=VARCHAR}
+                </if>
+                <if test="mem != null and mem != ''">
+                    AND  PI.MEM = #{mem,jdbcType=VARCHAR}
+                </if>
+                <if test="load != null and load != ''">
+                    AND  PI.LOAD = #{load,jdbcType=VARCHAR}
+                </if>
+                <if test="ipPort != null and ipPort != ''">
+                    AND  PI.IP_PORT = #{ipPort,jdbcType=VARCHAR}
+                </if>
+                <if test="serverStatus != null and serverStatus !=''">
+                    AND  PI.SERVER_STATUS = #{serverStatus,jdbcType=VARCHAR},
+                </if>
+                <if test="parentNode != null and parentNode != ''">
+                    AND  PI.PARENT_NODE = #{parentNode,jdbcType=VARCHAR}
+                </if>
+                <if test="beginCreatedAt != null">
+                    AND <![CDATA[ PI.CREATE_AT >= #{beginCreatedAt,jdbcType=TIMESTAMP}]]>
+                </if>
+                <if test="endUpdatedAt != null">
+                    AND <![CDATA[ PI.UPDATE_AT <= #{endUpdatedAt,jdbcType=TIMESTAMP}]]>
+                </if>
+                <if test="createdBy != null and createdBy != ''">
+                    AND  PI.CREATE_BY = #{createdBy,jdbcType=VARCHAR}
+                </if>
+                <if test="updatedBy != null and updatedBy != ''">
+                    AND  PI.UPDATE_BY = #{updatedBy,jdbcType=VARCHAR}
+                </if>
+            </trim>
+        </where>
+        ORDER BY
+                PI.ID
+        DESC
+    </select>
+
+    <!-- 更新服务器实例信息 -->
+    <update id="updateByPrimaryKey" parameterType="com.xinyan.message.center.dal.model.PushInstanceDO">
+        UPDATE
+              T_PUSH_INSTANCE PI
+        <set>
+            <if test="id != null and id != ''">
+                PI.ID = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="instanceId != null and instanceId != ''">
+                PI.INSTANCE_ID = #{instanceId,jdbcType=VARCHAR},
+            </if>
+            <if test="clientSum != null and clientSum != ''">
+                PI.CLIENT_SUM = #{clientSum,jdbcType=VARCHAR},
+            </if>
+            <if test="cpu != null and cpu != ''">
+                PI.CPU = #{cpu,jdbcType=VARCHAR},
+            </if>
+            <if test="mem != null and mem != ''">
+                PI.MEM = #{mem,jdbcType=VARCHAR},
+            </if>
+            <if test="load != null and load != ''">
+                PI.LOAD = #{load,jdbcType=VARCHAR},
+            </if>
+            <if test="ipPort != null and ipPort != ''">
+                PI.IP_PORT = #{ipPort,jdbcType=VARCHAR},
+            </if>
+            <if test="serverStatus != null and serverStatus !=''">
+                PI.SERVER_STATUS = #{serverStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="parentNode != null and parentNode != ''">
+                PI.PARENT_NODE = #{parentNode,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                PI.CREATE_BY = #{createdBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedBy != null and updatedBy != ''">
+                PI.UPDATE_BY = #{updatedBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createdAt != null and createdAt!=''">
+                PI.CREATE_AT = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null and updatedAt!=''">
+                PI.UPDATE_AT = #{updatedAt,jdbcType=TIMESTAMP}
+            </if>
+        </set>
+        WHERE
+              PI.ID = #{id,jdbcType=INTEGER}
+    </update>
+
+
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinyan.message.center.dal.mapper.DeviceInstanceDOMapper">
+  <resultMap id="BaseResultMap" type="com.xinyan.message.center.dal.model.DeviceInstaceDO">
+    <result column="XY_ID" jdbcType="VARCHAR" property="xyId" />
+    <result column="INSTANCE_ID" jdbcType="VARCHAR" property="instanceId" />
+    <result column="TOKEN" jdbcType="VARCHAR" property="token" />
+    <result column="IP_PORT" jdbcType="VARCHAR" property="ipPort" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="UPDATE_AT" jdbcType="TIMESTAMP" property="updateAt" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, XY_ID, INSTANCE_ID, TOKEN, IP_PORT, CREATE_AT, CREATE_BY, UPDATE_AT, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_XYID_PUSH
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectInstanceByCondition" parameterType="java.util.Map" resultMap="BaseResultMap" >
+    select
+      <include refid="Base_Column_List" /> from T_XYID_PUSH
+    <where>
+      <if test="xyId != null">
+        XY_ID = #{xyId,jdbcType=VARCHAR}
+      </if>
+      <if test="instanceId != null">
+        INSTANCE_ID = #{instanceId,jdbcType=VARCHAR}
+      </if>
+      <if test="token != null">
+        TOKEN = #{token,jdbcType=VARCHAR}
+      </if>
+      <if test="ipPort != null">
+        IP_PORT = #{ipPort,jdbcType=VARCHAR}
+      </if>
+      <if test="createAt != null">
+        CREATE_AT = #{createAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="updateAt != null">
+        UPDATE_AT = #{updateAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+    
+    <select id="selectGroupInstanceByXYID" parameterType="java.util.List" resultType="java.lang.String">
+         select t.INSTANCE_ID from T_XYID_PUSH t where t.XY_ID in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+        GROUP BY t.INSTANCE_ID
+    </select>
+</mapper>
