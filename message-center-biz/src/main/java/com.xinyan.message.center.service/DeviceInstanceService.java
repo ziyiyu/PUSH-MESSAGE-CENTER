@@ -6,7 +6,6 @@ package com.xinyan.message.center.service;
 
 import com.xinyan.message.center.common.constant.Constant;
 import com.xinyan.message.center.common.enums.ErrorMsgEnum;
-import com.xinyan.message.center.common.enums.OperateEnum;
 import com.xinyan.message.center.common.exception.ServiceException;
 import com.xinyan.message.center.common.utils.CommonUtils;
 import com.xinyan.message.center.manager.DeviceInstanceManager;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 /**
  * @author luojitao
@@ -44,9 +44,9 @@ public class DeviceInstanceService {
             boolean ruleflag=false;
             List<String> topics= (List) map.get(Constant.TOPICS)!=null?(List)map.get(Constant.TOPICS):new ArrayList<>();
             for(String topic:topics){
-                if(!CommonUtils.matchs(topic,Constant.DEVICE_PATTERN)){
+                if(!CommonUtils.matchs(topic, Constant.DEVICE_PATTERN)){
                     //非设备 判断是否为频道
-                    if(CommonUtils.matchs(topic,Constant.PATTERN)){
+                    if(CommonUtils.matchs(topic, Constant.PATTERN)){
                         //为频道 全局广播
                         flag=true;
                         break;
@@ -63,7 +63,11 @@ public class DeviceInstanceService {
             }
 
             //暂不开启精准推送，直接进行全局广播
-            asyncTasks.asyncSendKafkaMessage(CommonUtils.pareseToString(map),Constant.KAFKA_TOPIC_BASIC+Constant.GLOBAL);
+            Future<Boolean> sendflag=asyncTasks.asyncSendKafkaMessage(CommonUtils.pareseToString(map), Constant.KAFKA_TOPIC_BASIC+ Constant.GLOBAL);
+            if(!sendflag.get()){
+                return Constant.RESULT_KAFKA_ERROR;
+            }
+
 /*
             if(flag){
                 //存在频道 进行全局广播
@@ -97,7 +101,7 @@ public class DeviceInstanceService {
         List<String> topics=(List) map.get(Constant.TOPICS)!=null?(List)map.get(Constant.TOPICS):new ArrayList<>();
 
         for (String device:devices){
-            if(!CommonUtils.matchs(device,Constant.DEVICE_PATTERN)){
+            if(!CommonUtils.matchs(device, Constant.DEVICE_PATTERN)){
                 //设备格式不合法
                 flag=true;
                 break;
@@ -108,7 +112,7 @@ public class DeviceInstanceService {
         }
 
         for (String topic:topics){
-            if(!CommonUtils.matchs(topic,Constant.PATTERN)){
+            if(!CommonUtils.matchs(topic, Constant.PATTERN)){
                 //频道格式不合法
                 flag=true;
                 break;

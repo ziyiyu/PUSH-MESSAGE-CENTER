@@ -54,4 +54,7 @@ public class Constant {
     /** 设备格式错误 */
     public static final String RESULT_DEVICE_ERROR="3";
 
+    /** kafka 连线异常*/
+    public static final String RESULT_KAFKA_ERROR="4";
+
 }

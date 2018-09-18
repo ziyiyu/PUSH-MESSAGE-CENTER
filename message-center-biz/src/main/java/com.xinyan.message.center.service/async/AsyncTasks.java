@@ -8,7 +8,10 @@ import com.xinyan.message.center.manager.kafka.SendKafkaManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.Future;
 
 /**
  * @author luojitao
@@ -23,7 +26,14 @@ public class AsyncTasks {
 
 
     @Async
-    public void asyncSendKafkaMessage(String body,String topic){
-        sendKafkaManager.sendKafkaMessage(body,topic);
+    public Future<Boolean> asyncSendKafkaMessage(String body, String topic){
+        try{
+            boolean flag=sendKafkaManager.sendKafkaMessage(body,topic);
+            return new AsyncResult<>(flag);
+        }catch (Exception e){
+            log.error("AsyncTasks.asyncSendKafkaMessage.exception",e);
+            return new AsyncResult<>(false);
+        }
+
     }
 }
