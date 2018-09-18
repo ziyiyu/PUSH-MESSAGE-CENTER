@@ -7,13 +7,13 @@
     <result column="INSTANCE_ID" property="instanceId" jdbcType="VARCHAR" />
     <result column="TOKEN" property="token" jdbcType="VARCHAR" />
     <result column="IP_PORT" property="ipPort" jdbcType="VARCHAR" />
-    <result column="CREATE_AT" property="createAt" jdbcType="TIMESTAMP" />
-    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
-    <result column="UPDATE_AT" property="updateAt" jdbcType="TIMESTAMP" />
-    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, XY_ID, INSTANCE_ID, TOKEN, IP_PORT, CREATE_AT, CREATE_BY, UPDATE_AT, UPDATE_BY
+    ID, XY_ID, INSTANCE_ID, TOKEN, IP_PORT, CREATED_AT, CREATED_BY, UPDATED_AT, UPDATED_BY
   </sql>
 
   <!-- 插入用户连接记录 -->
@@ -36,17 +36,17 @@
       <if test="ipPort != null" >
         IP_PORT,
       </if>
-      <if test="createAt != null" >
-        CREATE_AT,
+      <if test="createdAt != null" >
+        CREATED_AT,
       </if>
-      <if test="createBy != null" >
-        CREATE_BY,
+      <if test="createdBy != null" >
+        CREATED_BY,
       </if>
-      <if test="updateAt != null" >
-        UPDATE_AT,
+      <if test="updatedAt != null" >
+        UPDATED_AT,
       </if>
-      <if test="updateBy != null" >
-        UPDATE_BY,
+      <if test="updatedBy != null" >
+        UPDATED_BY,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -65,17 +65,17 @@
       <if test="ipPort != null" >
         #{ipPort,jdbcType=VARCHAR},
       </if>
-      <if test="createAt != null" >
+      <if test="createdAt != null" >
         #{createAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="createBy != null" >
-        #{createBy,jdbcType=VARCHAR},
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=VARCHAR},
       </if>
-      <if test="updateAt != null" >
-        #{updateAt,jdbcType=TIMESTAMP},
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateBy != null" >
-        #{updateBy,jdbcType=VARCHAR},
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
