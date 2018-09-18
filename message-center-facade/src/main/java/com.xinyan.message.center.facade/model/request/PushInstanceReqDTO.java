@@ -26,12 +26,12 @@ public class PushInstanceReqDTO extends BaseReqDTO implements Serializable{
 
     /** 编号 */
     @ApiModelProperty("id")
-    @NotNull(message = "id不能为空",groups = {JsrGroup.Delete.class, JsrGroup.Update.class , JsrGroup.Add.class})
+    @NotNull(message = "id不能为空",groups = {JsrGroup.Delete.class, JsrGroup.Update.class})
     private Integer id;
 
     /** 实例ID */
     @ApiModelProperty("实例ID")
-    @NotBlank(message = "实例ID不能为空",groups = {JsrGroup.Query.class})
+    @NotBlank(message = "实例ID不能为空",groups = { JsrGroup.Add.class})
     private String instanceId;
 
     /** 客户端数量 */
@@ -56,7 +56,6 @@ public class PushInstanceReqDTO extends BaseReqDTO implements Serializable{
 
     /** 服务器状态 */
     @ApiModelProperty("服务器状态")
-    @NotBlank(message = "服务器状态不能为空",groups = {JsrGroup.Query.class})
     private String serverStatus;
 
     /** 父节点信息 */
