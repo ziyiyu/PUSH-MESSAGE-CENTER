@@ -39,7 +39,7 @@ public class Application {
     public static void main(String[] args) {
         ApplicationContext applicationContext = SpringApplication.run(Application.class, args);
         //加载spring上下文
-        log.info("message-center started!!! swagger url: 21102/message-center/swagger-ui.html");
+        log.info("push-message-center started!!! swagger url: 21102/push-message-center/swagger-ui.html");
     }
 
     /**

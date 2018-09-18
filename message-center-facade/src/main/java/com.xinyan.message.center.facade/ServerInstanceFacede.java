@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * <li>author:beal; date:2018/9/17</li>
  * </ul>
  */
-@FeignClient(value = "message-center")
+@FeignClient(value = "push-message-center")
 public interface ServerInstanceFacede {
 
     /**
