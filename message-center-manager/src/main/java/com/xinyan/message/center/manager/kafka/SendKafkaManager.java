@@ -4,18 +4,12 @@
  */
 package com.xinyan.message.center.manager.kafka;
 
-import com.xinyan.message.center.common.constant.Constant;
-import com.xinyan.message.center.common.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.binding.BinderAwareChannelResolver;
-import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author luojitao
@@ -29,19 +23,19 @@ public class SendKafkaManager {
     @Autowired
     private BinderAwareChannelResolver resolver;
 
-    public void sendKafkaMessage( String body, String topic) {
-        sendMessage(body, topic);
+    public boolean sendKafkaMessage( String body, String topic) {
+        return sendMessage(body, topic);
     }
 
 
 
 
-    private void sendMessage(String body, String topic) {
-        sendMessage(body.getBytes(), topic);
+    private boolean sendMessage(String body, String topic) {
+        return sendMessage(body.getBytes(), topic);
     }
 
-    private void sendMessage(byte[] body, String topic) {
-        resolver.resolveDestination(topic).send(new GenericMessage<>(body));
+    private boolean sendMessage(byte[] body, String topic) {
+        return resolver.resolveDestination(topic).send(new GenericMessage<>(body));
     }
 
 

@@ -27,6 +27,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.concurrent.Future;
 
 /**
  * @Description 推送消息
@@ -67,16 +68,18 @@ public class MessageController {
     public Result<MessageResDTO> pubMsgInstance(@RequestBody String message){
         MessageResDTO sendMessageResDTO=new MessageResDTO();
         try {
-            Map<String,Object> map=CommonUtils.parseToMap(message);
+            Map<String,Object> map= CommonUtils.parseToMap(message);
             map.put(Constant.OPERATETYPE, OperateEnum.PUB_MSG.getCode());
             //设置LOGID与平台端一致
-            LogUtil.updateLogId(map.get(Constant.LOG_UUID)!=null?map.get(Constant.LOG_UUID).toString():LogUtil.getLogId());
-            sendMessageResDTO.setRequestId(map.get(Constant.MSGID)!=null?map.get(Constant.MSGID).toString():CommonUtils.getmsgId());
+            LogUtil.updateLogId(map.get(Constant.LOG_UUID)!=null?map.get(Constant.LOG_UUID).toString(): LogUtil.getLogId());
+            sendMessageResDTO.setRequestId(map.get(Constant.MSGID)!=null?map.get(Constant.MSGID).toString(): CommonUtils.getmsgId());
             //将平台信息传入service进行逻辑处理
             String result=deviceInstanceService.pubMsg(map);
             if(result.equals(Constant.RESULT_TOPIC_ERROR)){
                 //频道格式错误 直接返回错误代码
                 return new Result<>(ErrorMsgEnum.TOPIC_TYPE_ERROR);
+            }else if(result.equals(Constant.RESULT_KAFKA_ERROR)){
+                return new Result<>(ErrorMsgEnum.KAFKA_SEND_ERROR);
             }
             return new Result<>(sendMessageResDTO);
         }catch (ServiceException se){
@@ -98,11 +101,11 @@ public class MessageController {
     public Result<MessageResDTO> subscribeMsgInstance(@RequestBody String message){
         MessageResDTO sendMessageResDTO=new MessageResDTO();
         try {
-            Map<String,String> map=CommonUtils.parseToMap(message);
+            Map<String,String> map= CommonUtils.parseToMap(message);
             map.put(Constant.OPERATETYPE, OperateEnum.SUB_MSG.getCode());
             //设置LOGID与平台端一致
-            LogUtil.updateLogId(map.get(Constant.LOG_UUID)!=null?map.get(Constant.LOG_UUID):LogUtil.getLogId());
-            sendMessageResDTO.setRequestId(map.get(Constant.requestId)!=null?map.get(Constant.requestId).toString():CommonUtils.getmsgId());
+            LogUtil.updateLogId(map.get(Constant.LOG_UUID)!=null?map.get(Constant.LOG_UUID): LogUtil.getLogId());
+            sendMessageResDTO.setRequestId(map.get(Constant.requestId)!=null?map.get(Constant.requestId).toString(): CommonUtils.getmsgId());
             //校验频道及设备格式
             String result=deviceInstanceService.checkDevicesTopics(map);
             if(Constant.RESULT_TOPIC_ERROR.equals(result)){
@@ -114,7 +117,10 @@ public class MessageController {
                 return new Result<>(ErrorMsgEnum.DEVICE_TYPE_ERROR);
             }
             //全局广播订阅信息
-            asyncTasks.asyncSendKafkaMessage(CommonUtils.pareseToString(map),Constant.KAFKA_TOPIC_BASIC+Constant.GLOBAL);
+            Future<Boolean> flag= asyncTasks.asyncSendKafkaMessage(CommonUtils.pareseToString(map), Constant.KAFKA_TOPIC_BASIC+ Constant.GLOBAL);
+            if(!flag.get()){
+                return new Result<>(ErrorMsgEnum.KAFKA_SEND_ERROR);
+            }
             return new Result<>(sendMessageResDTO);
         }catch (ServiceException se){
             log.error("MessageController.subscribeMsgInstance.ServiceException",se);
@@ -134,11 +140,11 @@ public class MessageController {
     public Result<MessageResDTO> unSubscribeMsgInstance(@RequestBody String message){
         MessageResDTO sendMessageResDTO=new MessageResDTO();
         try {
-            Map<String,String> map=CommonUtils.parseToMap(message);
+            Map<String,String> map= CommonUtils.parseToMap(message);
             map.put(Constant.OPERATETYPE, OperateEnum.UNSUB_MSG.getCode());
             //设置LOGID与平台端一致
-            LogUtil.updateLogId(map.get(Constant.LOG_UUID)!=null?map.get(Constant.LOG_UUID):LogUtil.getLogId());
-            sendMessageResDTO.setRequestId(map.get(Constant.requestId)!=null?map.get(Constant.requestId).toString():CommonUtils.getmsgId());
+            LogUtil.updateLogId(map.get(Constant.LOG_UUID)!=null?map.get(Constant.LOG_UUID): LogUtil.getLogId());
+            sendMessageResDTO.setRequestId(map.get(Constant.requestId)!=null?map.get(Constant.requestId).toString(): CommonUtils.getmsgId());
             //校验频道及设备格式
             String result=deviceInstanceService.checkDevicesTopics(map);
             if(Constant.RESULT_TOPIC_ERROR.equals(result)){
@@ -150,7 +156,10 @@ public class MessageController {
                 return new Result<>(ErrorMsgEnum.DEVICE_TYPE_ERROR);
             }
             //全局广播订阅信息
-            asyncTasks.asyncSendKafkaMessage(CommonUtils.pareseToString(map),Constant.KAFKA_TOPIC_BASIC+Constant.GLOBAL);
+            Future<Boolean> flag=asyncTasks.asyncSendKafkaMessage(CommonUtils.pareseToString(map), Constant.KAFKA_TOPIC_BASIC+ Constant.GLOBAL);
+            if(!flag.get()){
+                return new Result<>(ErrorMsgEnum.KAFKA_SEND_ERROR);
+            }
             return new Result<>(sendMessageResDTO);
         }catch (ServiceException se){
             log.error("MessageController.unSubscribeMsgInstance.ServiceException",se);
@@ -231,7 +240,7 @@ public class MessageController {
      * @return  Result<String>              返回结果集
      */
     @RequestMapping(value = "/delInstance",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Result<String> delInstance( @Validated({JsrGroup.Delete.class}) @RequestBody PushInstanceReqDTO record, BindingResult bindingResult){
+    public Result<String> delInstance(@Validated({JsrGroup.Delete.class}) @RequestBody PushInstanceReqDTO record, BindingResult bindingResult){
         try {
             log.info("删除服务器实例信息请求参数,PushInstanceDO:{}",record);
             serverInstanceService.delInstance(record);

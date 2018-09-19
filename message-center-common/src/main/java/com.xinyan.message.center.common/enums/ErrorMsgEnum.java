@@ -47,6 +47,7 @@ public enum ErrorMsgEnum {
 
     DEVICE_TYPE_ERROR("DEVICE_TYPE_ERROR","设备格式错误"),
     TOPIC_TYPE_ERROR("TOPIC_TYPE_ERROR","频道格式错误"),
+    KAFKA_SEND_ERROR("KAFKA_SEND_ERROR","KAFKA发送失败"),
     SEND_MESSAGE_ERROR("SEND_MESSAGE_ERROR","消息推送失败");
 
 
