@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.xinyan.credit</groupId>
-    <artifactId>message-center</artifactId>
+    <artifactId>push-message-center</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
@@ -15,7 +15,7 @@
         <module>message-center-manager</module>
         <module>message-center-web</module>
     </modules>
-    <name>Message Center Project Parent</name>
+    <name>Push Message Center Project Parent</name>
     <url>http://maven.apache.org</url>
     <description>消息中心项目</description>
 

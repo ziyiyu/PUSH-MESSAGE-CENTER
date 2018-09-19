@@ -41,7 +41,7 @@
         FROM
             T_PUSH_INSTANCE PI
         ORDER BY
-            RULE LIMIT 1
+            RULE DESC LIMIT 1
     </select>
 
     <!-- 新增服务器实例信息 -->

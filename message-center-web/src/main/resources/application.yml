@@ -10,7 +10,7 @@ spring:
   jmx:
     enabled: false
   application:
-    name: message-center
+    name: push-message-center
   cloud:
     stream:
       default:
