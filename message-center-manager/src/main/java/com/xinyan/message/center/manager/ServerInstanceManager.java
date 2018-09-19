@@ -72,10 +72,6 @@ public class ServerInstanceManager {
     public PushInstanceResDTO queryServerInstance(PushInstanceReqDTO record){
         try {
             PushInstanceDO reqrecord = BeanCopyUtil.objConvert(record,PushInstanceDO.class);
-            if(reqrecord.getBeginCreatedAt() == null || reqrecord.getEndUpdatedAt() == null){
-                log.info("开始创建时间不可为空！更新结束时间不可为空！");
-                throw new ManagerException(ErrorMsgEnum.PARAMETER_ERROR);
-            }
             PushInstanceDO response = instanceDOMapper.selectBySelective(reqrecord);
             return BeanCopyUtil.objConvert(response,PushInstanceResDTO.class);
         } catch (Exception e) {

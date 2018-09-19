@@ -5,9 +5,9 @@ import com.xinyan.message.center.facade.model.response.CenterApiResponse;
 import com.xinyan.message.center.facade.model.response.PushInstanceResDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * <ul>
@@ -25,6 +25,6 @@ public interface ServerInstanceFacede {
      * @return PushInstanceResDTO    返回结果集
      */
     @RequestMapping(value = "/message/queryInstance",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    CenterApiResponse<PushInstanceResDTO> queryInstance(@RequestParam PushInstanceReqDTO record);
+    CenterApiResponse<PushInstanceResDTO> queryInstance(@RequestBody PushInstanceReqDTO record);
 
 }

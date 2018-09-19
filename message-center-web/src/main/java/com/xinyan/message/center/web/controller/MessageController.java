@@ -192,13 +192,13 @@ public class MessageController {
     }
 
     /**
-     * 查询服务器实例信息
+     * 查询服务器实例信息(oms)
      *
      * @param   record                           查询服务器实例信息请求
      * @return  Result<PushInstanceResDTO>       返回结果集
      */
     @RequestMapping(value = "/queryInstance",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Result<PushInstanceResDTO> queryInstance(@Validated({JsrGroup.Query.class}) @RequestBody PushInstanceReqDTO record, BindingResult bindingResult){
+    public Result<PushInstanceResDTO> queryInstance(@Validated({JsrGroup.Query.class})@RequestBody PushInstanceReqDTO record, BindingResult bindingResult){
         try {
             log.info("查询服务器实例信息请求参数,PushInstanceDO:{}",record);
             PushInstanceResDTO result = serverInstanceService.queryInstance(record);
