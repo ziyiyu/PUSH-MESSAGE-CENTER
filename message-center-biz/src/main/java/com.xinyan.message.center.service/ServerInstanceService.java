@@ -35,7 +35,7 @@ public class ServerInstanceService {
         try{
             serverInstanceManager.addServerInstance(record);
         }catch (ManagerException me){
-            throw new ServiceException(me.getErrMsg());
+            throw new ServiceException(me.getErrMsg(),me);
         }catch (Exception e){
             log.info("新增服务器实例异常信息：{}",e);
             throw new ServiceException(ErrorMsgEnum.DATA_ADD_FAIL);

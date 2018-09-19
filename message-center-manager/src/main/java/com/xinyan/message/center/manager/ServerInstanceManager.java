@@ -37,7 +37,7 @@ public class ServerInstanceManager {
         try {
             PushInstanceDO reqrecord = BeanCopyUtil.objConvert(record,PushInstanceDO.class);
             int i = instanceDOMapper.addBySelective(reqrecord);
-            if (i != 1) {
+            if (i < 1) {
                 throw new ManagerException(ErrorMsgEnum.DATA_ADD_FAIL);
             }
         } catch (Exception e) {
