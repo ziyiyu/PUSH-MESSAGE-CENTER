@@ -195,7 +195,7 @@
                     AND  PI.IP_PORT = #{ipPort,jdbcType=VARCHAR}
                 </if>
                 <if test="serverStatus != null and serverStatus !=''">
-                    AND  PI.SERVER_STATUS = #{serverStatus,jdbcType=VARCHAR},
+                    AND  PI.SERVER_STATUS = #{serverStatus,jdbcType=VARCHAR}
                 </if>
                 <if test="parentNode != null and parentNode != ''">
                     AND  PI.PARENT_NODE = #{parentNode,jdbcType=VARCHAR}
