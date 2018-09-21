@@ -201,7 +201,7 @@
                     AND  PI.PARENT_NODE = #{parentNode,jdbcType=VARCHAR}
                 </if>
                 <if test="beginCreatedAt != null">
-                    AND <![CDATA[ PI.CREATE_AT >= #{beginUpdatedAt,jdbcType=TIMESTAMP}]]>
+                    AND <![CDATA[ PI.UPDATE_AT >= #{beginUpdatedAt,jdbcType=TIMESTAMP}]]>
                 </if>
                 <if test="endUpdatedAt != null">
                     AND <![CDATA[ PI.UPDATE_AT <= #{endUpdatedAt,jdbcType=TIMESTAMP}]]>
