@@ -2,6 +2,8 @@ package com.xinyan.message.center.dal.mapper;
 
 import com.xinyan.message.center.dal.model.PushInstanceDO;
 
+import java.util.List;
+
 /**
  * Module Desc: 消息推送服务器实例信息数据库层
  * User: beal
@@ -38,7 +40,7 @@ public interface InstanceDOMapper {
      * @param record      查询服务器实例信息
      * @return            返回结果集
      */
-    PushInstanceDO selectBySelective(PushInstanceDO record);
+    List<PushInstanceDO> selectBySelective(PushInstanceDO record);
 
     /**
      * 更新服务器实例信息

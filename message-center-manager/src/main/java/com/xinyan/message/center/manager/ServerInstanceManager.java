@@ -11,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * <ul>
  * <li>服务器实例信息管理层</li>
@@ -66,14 +69,17 @@ public class ServerInstanceManager {
     /**
      * 查询服务器实例信息
      *
-     * @param  record                    查询服务器实例信息参数
-     * @return PushInstanceResDTO        返回结果集
+     * @param  record                          查询服务器实例信息参数
+     * @return List<PushInstanceResDTO>        返回结果集
      */
-    public PushInstanceResDTO queryServerInstance(PushInstanceReqDTO record){
+    public List<PushInstanceResDTO> queryServerInstance(PushInstanceReqDTO record){
         try {
             PushInstanceDO reqrecord = BeanCopyUtil.objConvert(record,PushInstanceDO.class);
-            PushInstanceDO response = instanceDOMapper.selectBySelective(reqrecord);
-            return BeanCopyUtil.objConvert(response,PushInstanceResDTO.class);
+            List<PushInstanceDO> response = instanceDOMapper.selectBySelective(reqrecord);
+            List<PushInstanceResDTO> pushInstanceResDTOS = response.stream()
+                    .map(demo -> BeanCopyUtil.objConvert(demo, PushInstanceResDTO.class))
+                    .collect(Collectors.toList());
+            return pushInstanceResDTOS;
         } catch (Exception e) {
             throw new ManagerException(ErrorMsgEnum.DATA_QUERY_FAIL, e);
         }

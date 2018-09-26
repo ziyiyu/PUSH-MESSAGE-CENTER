@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <ul>
  * <li>消息推送服务器实例信息控制层</li>
@@ -58,14 +60,14 @@ public class ServerInstanceController {
     /**
      * 查询服务器实例信息(oms)
      *
-     * @param   record                           查询服务器实例信息请求
-     * @return  Result<PushInstanceResDTO>       返回结果集
+     * @param   record                                 查询服务器实例信息请求
+     * @return  Result<List<PushInstanceResDTO>>       返回结果集
      */
     @RequestMapping(value = "/query",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Result<PushInstanceResDTO> queryInstance(@Validated({JsrGroup.Query.class})@RequestBody PushInstanceReqDTO record, BindingResult bindingResult){
+    public Result<List<PushInstanceResDTO>> queryInstance(@Validated({JsrGroup.Query.class})@RequestBody PushInstanceReqDTO record, BindingResult bindingResult){
         try {
             log.info("查询服务器实例信息请求参数,PushInstanceDO:{}",record);
-            PushInstanceResDTO result = serverInstanceService.queryInstance(record);
+            List<PushInstanceResDTO> result = serverInstanceService.queryInstance(record);
             log.info("查询服务器实例信息返回结果:PushInstanceResDTO:{},操作成功！",result);
             return new Result<>(result);
         }catch (ServiceException se){
