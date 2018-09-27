@@ -222,7 +222,7 @@
             </trim>
         </where>
         ORDER BY
-                PI.UPDATE_AT
+                PI.UPDATED_AT
         DESC
     </select>
 
