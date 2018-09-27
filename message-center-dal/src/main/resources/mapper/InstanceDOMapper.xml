@@ -202,16 +202,16 @@
                     AND  PI.PARENT_NODE = #{parentNode,jdbcType=VARCHAR}
                 </if>
                 <if test="beginCreatedAt != null">
-                    AND <![CDATA[ PI.CREATED_AT >= #{beginCreatedAt,jdbcType=TIMESTAMP}]]>
+                    <![CDATA[AND PI.CREATED_AT >= #{beginCreatedAt,jdbcType=TIMESTAMP}]]>
                 </if>
                 <if test="endCreatedAt != null">
-                    AND <![CDATA[ PI.CREATED_AT < #{endCreatedAt,jdbcType=TIMESTAMP}]]>
+                    <![CDATA[AND PI.CREATED_AT < #{endCreatedAt,jdbcType=TIMESTAMP}]]>
                 </if>
                 <if test="beginUpdatedAt != null">
-                    AND <![CDATA[ PI.UPDATED_AT <= #{beginUpdatedAt,jdbcType=TIMESTAMP}]]>
+                    <![CDATA[AND PI.UPDATED_AT >= #{beginUpdatedAt,jdbcType=TIMESTAMP}]]>
                 </if>
                 <if test="endUpdatedAt != null">
-                    AND <![CDATA[ PI.UPDATED_AT < #{endUpdatedAt,jdbcType=TIMESTAMP}]]>
+                    <![CDATA[AND PI.UPDATED_AT < #{endUpdatedAt,jdbcType=TIMESTAMP}]]>
                 </if>
                 <if test="createdBy != null and createdBy != ''">
                     AND  PI.CREATED_BY = #{createdBy,jdbcType=VARCHAR}
