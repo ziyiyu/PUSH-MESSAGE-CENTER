@@ -40,6 +40,7 @@
             ,CPU * 0.2 + MEM * 0.2+ PI.LOAD * 0.2+ PI.CLIENT_SUM / 100000 * 0.3 + FLOOR(RAND() * 100) AS RULE
         FROM
             T_PUSH_INSTANCE PI
+        WHERE SERVER_STATUS = 'up'
         ORDER BY
             RULE DESC LIMIT 1
     </select>
