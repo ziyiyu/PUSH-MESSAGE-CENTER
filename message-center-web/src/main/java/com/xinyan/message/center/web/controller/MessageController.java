@@ -53,11 +53,6 @@ public class MessageController {
     @Autowired
     private DeviceInstanceService deviceInstanceService;
 
-    /**
-     * 服务器实例信息业务逻辑层
-     */
-    @Autowired
-    private ServerInstanceService serverInstanceService;
 
     /**
      * 推送消息
@@ -170,88 +165,5 @@ public class MessageController {
         }
     }
 
-    /**
-     * 新增服务器实例信息
-     *
-     * @param   record                      新增服务器实例信息
-     * @return  Result<String>              返回结果集
-     */
-    @RequestMapping(value = "/addInstance",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Result<String> addInstance(@Validated({JsrGroup.Add.class}) @RequestBody PushInstanceReqDTO record, BindingResult bindingResult){
-        try {
-            log.info("新增服务器实例信息请求参数,PushInstanceDO:{}",record);
-            serverInstanceService.addInstance(record);
-            log.info("新增服务器实例信息操作成功！");
-            return new Result<>("ok");
-        }catch (ServiceException se){
-            return new Result<>(se.getErrMsg());
-        }catch (Exception e){
-            log.error("新增服务器实例信息异常:{}",e);
-            return new Result<>(ErrorMsgEnum.DATA_ADD_FAIL);
-        }
-    }
-
-    /**
-     * 查询服务器实例信息
-     *
-     * @param   record                           查询服务器实例信息请求
-     * @return  Result<PushInstanceResDTO>       返回结果集
-     */
-    @RequestMapping(value = "/queryInstance",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Result<PushInstanceResDTO> queryInstance(@Validated({JsrGroup.Query.class}) @RequestBody PushInstanceReqDTO record, BindingResult bindingResult){
-        try {
-            log.info("查询服务器实例信息请求参数,PushInstanceDO:{}",record);
-            PushInstanceResDTO result = serverInstanceService.queryInstance(record);
-            log.info("查询服务器实例信息返回结果:PushInstanceResDTO:{},操作成功！",result);
-            return new Result<>(result);
-        }catch (ServiceException se){
-            return new Result<>(se.getErrorMsgEnum());
-        }catch (Exception e){
-            log.error("查询服务器实例信息异常:{}",e);
-            return new Result<>(ErrorMsgEnum.DATA_QUERY_FAIL);
-        }
-    }
-
-    /**
-     * 更新服务器实例信息
-     *
-     * @param   record                      更新服务器实例信息请求
-     * @return  Result<String>              返回结果集
-     */
-    @RequestMapping(value = "/modifyInstance",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Result<String> modifyInstance(@Validated({JsrGroup.Update.class}) @RequestBody PushInstanceReqDTO record, BindingResult bindingResult){
-        try {
-            log.info("更新服务器实例信息请求参数,PushInstanceDO:{}",record);
-            serverInstanceService.modifyInstance(record);
-            log.info("更新服务器实例信息操作成功！");
-            return new Result<>("ok");
-        }catch (ServiceException se){
-            return new Result<>(se.getErrorMsgEnum());
-        }catch (Exception e){
-            log.error("更新服务器实例信息异常:{}",e);
-            return new Result<>(ErrorMsgEnum.DATA_UPDATE_FAIL);
-        }
-    }
-
-    /**
-     * 删除服务器实例信息
-     *
-     * @param   record                      删除服务器实例信息id
-     * @return  Result<String>              返回结果集
-     */
-    @RequestMapping(value = "/delInstance",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Result<String> delInstance(@Validated({JsrGroup.Delete.class}) @RequestBody PushInstanceReqDTO record, BindingResult bindingResult){
-        try {
-            log.info("删除服务器实例信息请求参数,PushInstanceDO:{}",record);
-            serverInstanceService.delInstance(record);
-            log.info("删除服务器实例信息操作成功！");
-            return new Result<>("ok");
-        }catch (ServiceException se){
-            return new Result<>(se.getErrorMsgEnum());
-        }catch (Exception e){
-            log.error("删除服务器实例信息异常:{}",e);
-            return new Result<>(ErrorMsgEnum.DATA_DEL_FAIL);
-        }
-    }
 
 }

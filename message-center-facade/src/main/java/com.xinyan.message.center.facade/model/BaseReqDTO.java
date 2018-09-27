@@ -1,6 +1,5 @@
 package com.xinyan.message.center.facade.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -22,18 +21,14 @@ public class BaseReqDTO implements Serializable{
     private static final long serialVersionUID = -5526116344026940880L;
 
     @ApiModelProperty("创建开始时间")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmmss", timezone = "GMT+8")
     private Date beginCreatedAt;
 
     @ApiModelProperty("创建结束时间")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmmss", timezone = "GMT+8")
     private Date endCreatedAt;
 
     @ApiModelProperty("更新开始时间")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmmss", timezone = "GMT+8")
     private Date beginUpdatedAt;
 
     @ApiModelProperty("更新结束时间")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmmss", timezone = "GMT+8")
     private Date endUpdatedAt;
 }

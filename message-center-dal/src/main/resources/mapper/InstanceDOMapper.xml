@@ -221,7 +221,7 @@
             </trim>
         </where>
         ORDER BY
-                PI.ID
+                PI.UPDATE_AT
         DESC
     </select>
 

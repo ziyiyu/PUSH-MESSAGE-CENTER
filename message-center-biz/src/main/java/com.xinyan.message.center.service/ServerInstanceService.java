@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <ul>
  * <li>服务器实例信息业务逻辑层</li>
@@ -63,7 +65,7 @@ public class ServerInstanceService {
      *
      * @param record    查询服务器实例信息
      */
-    public PushInstanceResDTO queryInstance(PushInstanceReqDTO record){
+    public List<PushInstanceResDTO> queryInstance(PushInstanceReqDTO record){
         try{
             return serverInstanceManager.queryServerInstance(record);
         }catch (ManagerException me){
