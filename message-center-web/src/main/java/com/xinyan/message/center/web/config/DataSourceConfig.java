@@ -17,7 +17,7 @@ public class DataSourceConfig {
 
     @Primary
     @Bean(name = "pmDataSource")
-    @ConfigurationProperties(prefix = "credit-push-message.jdbc")
+    @ConfigurationProperties(prefix = "credit-push-govern.jdbc")
     public DataSource pmDataSource() {
         return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }

@@ -6,14 +6,14 @@
     <result column="INSTANCE_ID" jdbcType="VARCHAR" property="instanceId" />
     <result column="TOKEN" jdbcType="VARCHAR" property="token" />
     <result column="IP_PORT" jdbcType="VARCHAR" property="ipPort" />
-    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
-    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
-    <result column="UPDATE_AT" jdbcType="TIMESTAMP" property="updateAt" />
-    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="CREATED_BY" jdbcType="VARCHAR" property="createdBy" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="UPDATED_BY" jdbcType="VARCHAR" property="updatedBy" />
   </resultMap>
 
   <sql id="Base_Column_List">
-    ID, XY_ID, INSTANCE_ID, TOKEN, IP_PORT, CREATE_AT, CREATE_BY, UPDATE_AT, UPDATE_BY
+    ID, XY_ID, INSTANCE_ID, TOKEN, IP_PORT, CREATED_AT, CREATED_BY, UPDATED_AT, UPDATED_BY
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -37,17 +37,17 @@
       <if test="ipPort != null">
         IP_PORT = #{ipPort,jdbcType=VARCHAR}
       </if>
-      <if test="createAt != null">
-        CREATE_AT = #{createAt,jdbcType=TIMESTAMP}
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP}
       </if>
-      <if test="createBy != null">
-        CREATE_BY = #{createBy,jdbcType=VARCHAR}
+      <if test="createdBy != null">
+        CREATED_BY = #{createdBy,jdbcType=VARCHAR}
       </if>
-      <if test="updateAt != null">
-        UPDATE_AT = #{updateAt,jdbcType=TIMESTAMP}
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
       </if>
-      <if test="updateBy != null">
-        UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+      <if test="updatedBy != null">
+        UPDATED_BY = #{updatedBy,jdbcType=VARCHAR}
       </if>
     </where>
   </select>

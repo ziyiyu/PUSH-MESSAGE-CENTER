@@ -11,10 +11,10 @@
         <result column="IP_PORT"            property="ipPort"           jdbcType="VARCHAR"/>
         <result column="SERVER_STATUS"      property="serverStatus"     jdbcType="VARCHAR"/>
         <result column="PARENT_NODE"        property="parentNode"       jdbcType="VARCHAR"/>
-        <result column="CREATE_AT"          property="createdAt"        jdbcType="TIMESTAMP"/>
-        <result column="CREATE_BY"          property="createdBy"        jdbcType="VARCHAR"/>
-        <result column="UPDATE_AT"          property="updatedAt"        jdbcType="TIMESTAMP"/>
-        <result column="UPDATE_BY"          property="updatedBy"        jdbcType="VARCHAR"/>
+        <result column="CREATED_AT"          property="createdAt"        jdbcType="TIMESTAMP"/>
+        <result column="CREATED_BY"          property="createdBy"        jdbcType="VARCHAR"/>
+        <result column="UPDATED_AT"          property="updatedAt"        jdbcType="TIMESTAMP"/>
+        <result column="UPDATED_BY"          property="updatedBy"        jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -27,10 +27,10 @@
         PI.IP_PORT,
         PI.SERVER_STATUS,
         PI.PARENT_NODE,
-        PI.CREATE_AT,
-        PI.CREATE_BY,
-        PI.UPDATE_AT,
-        PI.UPDATE_BY
+        PI.CREATED_AT,
+        PI.CREATED_BY,
+        PI.UPDATED_AT,
+        PI.UPDATED_BY
     </sql>
 
     <!--选择负载最小的服务器-->
@@ -77,16 +77,16 @@
                 PARENT_NODE,
             </if>
             <if test="createdAt != null" >
-                CREATE_AT,
+                CREATED_AT,
             </if>
             <if test="createdBy != null" >
-                CREATE_BY,
+                CREATED_BY,
             </if>
             <if test="updatedAt != null" >
-                UPDATE_AT,
+                UPDATED_AT,
             </if>
             <if test="updatedBy != null" >
-                UPDATE_BY,
+                UPDATED_BY,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -201,16 +201,22 @@
                     AND  PI.PARENT_NODE = #{parentNode,jdbcType=VARCHAR}
                 </if>
                 <if test="beginCreatedAt != null">
-                    AND <![CDATA[ PI.CREATE_AT >= #{beginCreatedAt,jdbcType=TIMESTAMP}]]>
+                    AND <![CDATA[ PI.CREATED_AT >= #{beginCreatedAt,jdbcType=TIMESTAMP}]]>
+                </if>
+                <if test="endCreatedAt != null">
+                    AND <![CDATA[ PI.CREATED_AT < #{endCreatedAt,jdbcType=TIMESTAMP}]]>
+                </if>
+                <if test="beginUpdatedAt != null">
+                    AND <![CDATA[ PI.UPDATED_AT <= #{beginUpdatedAt,jdbcType=TIMESTAMP}]]>
                 </if>
                 <if test="endUpdatedAt != null">
-                    AND <![CDATA[ PI.UPDATE_AT <= #{endUpdatedAt,jdbcType=TIMESTAMP}]]>
+                    AND <![CDATA[ PI.UPDATED_AT < #{endUpdatedAt,jdbcType=TIMESTAMP}]]>
                 </if>
                 <if test="createdBy != null and createdBy != ''">
-                    AND  PI.CREATE_BY = #{createdBy,jdbcType=VARCHAR}
+                    AND  PI.CREATED_BY = #{createdBy,jdbcType=VARCHAR}
                 </if>
                 <if test="updatedBy != null and updatedBy != ''">
-                    AND  PI.UPDATE_BY = #{updatedBy,jdbcType=VARCHAR}
+                    AND  PI.UPDATED_BY = #{updatedBy,jdbcType=VARCHAR}
                 </if>
             </trim>
         </where>
@@ -252,16 +258,10 @@
                 PI.PARENT_NODE = #{parentNode,jdbcType=VARCHAR},
             </if>
             <if test="createdBy != null and createdBy != ''">
-                PI.CREATE_BY = #{createdBy,jdbcType=VARCHAR},
+                PI.CREATED_BY = #{createdBy,jdbcType=VARCHAR},
             </if>
             <if test="updatedBy != null and updatedBy != ''">
-                PI.UPDATE_BY = #{updatedBy,jdbcType=VARCHAR},
-            </if>
-            <if test="createdAt != null and createdAt!=''">
-                PI.CREATE_AT = #{createdAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updatedAt != null and updatedAt!=''">
-                PI.UPDATE_AT = #{updatedAt,jdbcType=TIMESTAMP}
+                PI.UPDATED_BY = #{updatedBy,jdbcType=VARCHAR},
             </if>
         </set>
         WHERE
