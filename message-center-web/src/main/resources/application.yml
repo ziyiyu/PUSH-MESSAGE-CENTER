@@ -55,6 +55,8 @@ info:
 
 eureka:
    client:
+#     register-with-eureka: false # 单机环境设置成false
+#     fetch-registry: false # 单机环境设置成false
      serviceUrl:
        defaultZone:  ${eureka-zone-url}
    instance:
