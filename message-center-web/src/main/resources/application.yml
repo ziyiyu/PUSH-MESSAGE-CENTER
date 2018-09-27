@@ -11,6 +11,9 @@ spring:
     enabled: false
   application:
     name: push-message-center
+  jackson:
+      time-zone: GMT+8
+      date-format: yyyy-MM-dd HH:mm:ss
   cloud:
     stream:
       default:
