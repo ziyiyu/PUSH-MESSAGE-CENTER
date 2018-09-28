@@ -33,4 +33,10 @@ public interface JsrGroup {
     public interface Update {
     }
 
+    /**
+     * OMS更新
+     */
+    public interface MUpdate {
+    }
+
 }

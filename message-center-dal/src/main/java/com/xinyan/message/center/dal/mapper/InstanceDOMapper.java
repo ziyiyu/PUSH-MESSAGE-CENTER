@@ -43,11 +43,27 @@ public interface InstanceDOMapper {
     List<PushInstanceDO> selectBySelective(PushInstanceDO record);
 
     /**
+     * 根据INDSTANCE_ID查询服务器实例信息
+     *
+     * @param record      服务器实例ID
+     * @return            返回结果集
+     */
+    PushInstanceDO selectByInstanceId(String record);
+
+    /**
      * 更新服务器实例信息
      *
      * @param record      更新服务器实例信息
      * @return            返回结果集
      */
     int updateByPrimaryKey(PushInstanceDO record);
+
+    /**
+     * 更新服务器实例信息By instanceId
+     *
+     * @param record      更新服务器实例信息
+     * @return            返回结果集
+     */
+    int updateByInstanceId(PushInstanceDO record);
 
 }

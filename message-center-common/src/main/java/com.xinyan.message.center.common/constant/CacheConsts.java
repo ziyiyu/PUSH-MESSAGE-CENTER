@@ -18,5 +18,10 @@ public class CacheConsts {
      **/
     public static final String INSTANCE_XYID_PREFIX = "PUSH_MESSAGE:INSTANCE_XYID";
 
+    /**
+     *服务器实例
+     **/
+    public static final String INSTANCE_SERVER_PREFIX = "PUSH_MESSAGE:INSTANCE_SERVER";
+
 
 }

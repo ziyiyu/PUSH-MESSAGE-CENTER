@@ -271,4 +271,55 @@
     </update>
 
 
+    <!-- 更新服务器实例信息 -->
+    <update id="updateByInstanceId" parameterType="com.xinyan.message.center.dal.model.PushInstanceDO">
+        UPDATE
+        T_PUSH_INSTANCE PI
+        <set>
+            <if test="id != null and id != ''">
+                PI.ID = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="instanceId != null and instanceId != ''">
+                PI.INSTANCE_ID = #{instanceId,jdbcType=VARCHAR},
+            </if>
+            <if test="clientSum != null and clientSum != ''">
+                PI.CLIENT_SUM = #{clientSum,jdbcType=VARCHAR},
+            </if>
+            <if test="cpu != null and cpu != ''">
+                PI.CPU = #{cpu,jdbcType=VARCHAR},
+            </if>
+            <if test="mem != null and mem != ''">
+                PI.MEM = #{mem,jdbcType=VARCHAR},
+            </if>
+            <if test="load != null and load != ''">
+                PI.LOAD = #{load,jdbcType=VARCHAR},
+            </if>
+            <if test="ipPort != null and ipPort != ''">
+                PI.IP_PORT = #{ipPort,jdbcType=VARCHAR},
+            </if>
+            <if test="serverStatus != null and serverStatus !=''">
+                PI.SERVER_STATUS = #{serverStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="parentNode != null and parentNode != ''">
+                PI.PARENT_NODE = #{parentNode,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null and createdBy != ''">
+                PI.CREATED_BY = #{createdBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedBy != null and updatedBy != ''">
+                PI.UPDATED_BY = #{updatedBy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE
+        PI.INSTANCE_ID = #{instanceId,jdbcType=VARCHAR}
+    </update>
+
+
+    <select id="selectByInstanceId" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        FROM T_PUSH_INSTANCE PI
+        WHERE
+        PI.INSTANCE_ID = #{instanceId,jdbcType=VARCHAR}
+    </select>
 </mapper>

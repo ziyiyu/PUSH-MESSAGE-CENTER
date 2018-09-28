@@ -1,8 +1,10 @@
 package com.xinyan.message.center.manager;
 
 import com.xinyan.common.copy.BeanCopyUtil;
+import com.xinyan.message.center.common.constant.CacheConsts;
 import com.xinyan.message.center.common.enums.ErrorMsgEnum;
 import com.xinyan.message.center.common.exception.ManagerException;
+import com.xinyan.message.center.common.utils.RedisManagerHelp;
 import com.xinyan.message.center.dal.mapper.InstanceDOMapper;
 import com.xinyan.message.center.dal.model.PushInstanceDO;
 import com.xinyan.message.center.facade.model.request.PushInstanceReqDTO;
@@ -29,6 +31,9 @@ public class ServerInstanceManager {
      */
     @Autowired
     private InstanceDOMapper instanceDOMapper;
+
+    @Autowired
+    private RedisManagerHelp redisManagerHelp;
 
     /**
      * 新增服务器实例信息
@@ -95,9 +100,30 @@ public class ServerInstanceManager {
         try {
             PushInstanceDO reqrecord = BeanCopyUtil.objConvert(record,PushInstanceDO.class);
             int i = instanceDOMapper.updateByPrimaryKey(reqrecord);
+
             if (i != 1) {
                 throw new ManagerException(ErrorMsgEnum.DATA_UPDATE_FAIL);
             }
+        } catch (Exception e) {
+            throw new ManagerException(ErrorMsgEnum.DATA_UPDATE_FAIL, e);
+        }
+    }
+
+    /**
+     * 根据实例id更新服务器实例信息
+     *
+     * @param  record                更新服务器实例信息参数
+     * @return                       返回结果集
+     */
+    public void modifyServerInstanceOfInstanceId(PushInstanceReqDTO record){
+        try {
+            PushInstanceDO pushInstanceDO = BeanCopyUtil.objConvert(record,PushInstanceDO.class);
+            int i = instanceDOMapper.updateByInstanceId(pushInstanceDO);
+            if (i != 1) {
+                throw new ManagerException(ErrorMsgEnum.DATA_UPDATE_FAIL);
+            }
+            PushInstanceDO instanceResult = instanceDOMapper.selectByInstanceId(record.getInstanceId());
+            redisManagerHelp.insertObj(CacheConsts.INSTANCE_SERVER_PREFIX+instanceResult.getInstanceId(),instanceResult,60 * 60 * 24 * 3L);
         } catch (Exception e) {
             throw new ManagerException(ErrorMsgEnum.DATA_UPDATE_FAIL, e);
         }

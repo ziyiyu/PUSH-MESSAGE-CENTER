@@ -91,4 +91,21 @@ public class ServerInstanceService {
             throw new ServiceException(ErrorMsgEnum.DATA_UPDATE_FAIL);
         }
     }
+
+
+    /**
+     * 根据instanceId更新服务器实例信息
+     *
+     * @param record    更新服务器实例信息
+     */
+    public void modifyServerInstanceOfInstanceId(PushInstanceReqDTO record){
+        try{
+            serverInstanceManager.modifyServerInstanceOfInstanceId(record);
+        }catch (ManagerException me){
+            throw new ServiceException(me.getErrMsg());
+        }catch (Exception e){
+            log.info("更新服务器实例异常信息：{}",e);
+            throw new ServiceException(ErrorMsgEnum.DATA_UPDATE_FAIL);
+        }
+    }
 }

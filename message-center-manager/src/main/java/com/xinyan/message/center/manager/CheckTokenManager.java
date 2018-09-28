@@ -62,10 +62,14 @@ public class CheckTokenManager {
             if (StringUtils.isNotBlank(token)){
                 CheckTokenResDTO result = redisManagerHelp.getObj(CacheConsts.INSTANCE_TOKEN_PREFIX+token, CheckTokenResDTO.class);
                 if (ObjectUtils.isNotNull(result)) {
-                    resDTO.setToken(result.getToken());
-                    resDTO.setInstanceId(result.getInstanceId());
-                    resDTO.setIpPort(result.getIpPort());
-                    return true;
+                    PushInstanceDO pushInstanceDO = redisManagerHelp.getObj(CacheConsts.INSTANCE_SERVER_PREFIX+result.getInstanceId(), PushInstanceDO.class);
+                    //判断当前服务器是否可用
+                    if ("up".equals(pushInstanceDO.getServerStatus())) {
+                        resDTO.setToken(result.getToken());
+                        resDTO.setInstanceId(result.getInstanceId());
+                        resDTO.setIpPort(result.getIpPort());
+                        return true;
+                    }
                 }
             }
             return false;
@@ -117,10 +121,14 @@ public class CheckTokenManager {
         try {
             CheckTokenResDTO result = redisManagerHelp.getObj(CacheConsts.INSTANCE_XYID_PREFIX+xyId, CheckTokenResDTO.class);
             if (ObjectUtils.isNotNull(result)) {
-                resDTO.setToken(result.getToken());
-                resDTO.setInstanceId(result.getInstanceId());
-                resDTO.setIpPort(result.getIpPort());
-                return true;
+                PushInstanceDO pushInstanceDO = redisManagerHelp.getObj(CacheConsts.INSTANCE_SERVER_PREFIX+result.getInstanceId(), PushInstanceDO.class);
+                //判断当前服务器是否可用
+                if ("up".equals(pushInstanceDO.getServerStatus())) {
+                    resDTO.setToken(result.getToken());
+                    resDTO.setInstanceId(result.getInstanceId());
+                    resDTO.setIpPort(result.getIpPort());
+                    return true;
+                }
             }
         } catch (Exception e) {
             throw new ManagerException(ErrorMsgEnum.DATA_CHECK_FAIL,e);

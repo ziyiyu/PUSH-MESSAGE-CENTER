@@ -85,10 +85,31 @@ public class ServerInstanceController {
      * @return  Result<String>              返回结果集
      */
     @RequestMapping(value = "/modify",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Result<String> modifyInstance(@Validated({JsrGroup.Update.class}) @RequestBody PushInstanceReqDTO record, BindingResult bindingResult){
+    public Result<String> modifyInstance(@Validated({JsrGroup.MUpdate.class}) @RequestBody PushInstanceReqDTO record, BindingResult bindingResult){
         try {
             log.info("更新服务器实例信息请求参数,PushInstanceDO:{}",record);
             serverInstanceService.modifyInstance(record);
+            log.info("更新服务器实例信息操作成功！");
+            return new Result<>("ok");
+        }catch (ServiceException se){
+            return new Result<>(se.getErrorMsgEnum());
+        }catch (Exception e){
+            log.error("更新服务器实例信息异常:{}",e);
+            return new Result<>(ErrorMsgEnum.DATA_UPDATE_FAIL);
+        }
+    }
+
+    /**
+     * 更新服务器实例信息
+     *
+     * @param   record                      更新服务器实例信息请求
+     * @return  Result<String>              返回结果集
+     */
+    @RequestMapping(value = "/modifyOfInstanceId",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Result<String> modifyInstanceOfInstanceId(@Validated({JsrGroup.Update.class}) @RequestBody PushInstanceReqDTO record, BindingResult bindingResult){
+        try {
+            log.info("更新服务器实例信息请求参数,PushInstanceDO:{}",record);
+            serverInstanceService.modifyServerInstanceOfInstanceId(record);
             log.info("更新服务器实例信息操作成功！");
             return new Result<>("ok");
         }catch (ServiceException se){
