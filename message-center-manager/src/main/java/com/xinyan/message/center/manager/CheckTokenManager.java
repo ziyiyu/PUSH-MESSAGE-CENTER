@@ -126,6 +126,10 @@ public class CheckTokenManager {
             CheckTokenResDTO result = redisManagerHelp.getObj(CacheConsts.INSTANCE_XYID_PREFIX+xyId, CheckTokenResDTO.class);
             if (ObjectUtils.isNotNull(result)) {
                 PushInstanceDO pushInstanceDO = redisManagerHelp.getObj(CacheConsts.INSTANCE_SERVER_PREFIX+result.getInstanceId(), PushInstanceDO.class);
+                if (ObjectUtils.isNull(pushInstanceDO)) {
+                    pushInstanceDO = instanceDOMapper.selectByInstanceId(result.getInstanceId());
+                    redisManagerHelp.insertObj(CacheConsts.INSTANCE_SERVER_PREFIX+result.getInstanceId(), PushInstanceDO.class,60 * 60 * 24 * 3L);
+                }
                 //判断当前服务器是否可用
                 if ("up".equals(pushInstanceDO.getServerStatus())) {
                     resDTO.setToken(result.getToken());
