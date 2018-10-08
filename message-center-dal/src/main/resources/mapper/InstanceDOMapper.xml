@@ -132,30 +132,6 @@
                 #{updatedBy,jdbcType=VARCHAR},
             </if>
         </trim>
-        ON DUPLICATE KEY UPDATE
-        <trim  suffixOverrides="," >
-             <if test="clientSum != null and clientSum != ''">
-                 CLIENT_SUM = #{clientSum,jdbcType=VARCHAR},
-             </if>
-             <if test="cpu != null and cpu != ''">
-                 CPU = #{cpu,jdbcType=VARCHAR},
-             </if>
-             <if test="mem != null and mem != ''">
-                 MEM = #{mem,jdbcType=VARCHAR},
-             </if>
-             <if test="load != null and load != ''">
-                 `LOAD` = #{load,jdbcType=VARCHAR},
-             </if>
-             <if test="ipPort != null and ipPort != ''">
-                 IP_PORT = #{ipPort,jdbcType=VARCHAR},
-             </if>
-             <if test="serverStatus != null and serverStatus !=''">
-                 SERVER_STATUS = #{serverStatus,jdbcType=VARCHAR},
-             </if>
-             <if test="parentNode != null and parentNode != ''">
-                 PARENT_NODE = #{parentNode,jdbcType=VARCHAR},
-             </if>
-        </trim>
     </insert>
 
 
